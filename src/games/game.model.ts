@@ -9,7 +9,7 @@ import {Genre} from "../genres/genre.model";
 
 interface GameCreationAttributes {
     title: string;
-    release_date: Date;
+    releaseDate: Date;
 }
 
 @Table({tableName: 'games'})
@@ -21,7 +21,7 @@ export class Game extends Model<Game, GameCreationAttributes> {
     title: string;
 
     @Column({ type: DataType.DATE })
-    release_date: Date;
+    releaseDate: Date;
 
     @BelongsToMany(() => Platform, () => GamePlatforms)
     platforms: Platform[]

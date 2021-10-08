@@ -9,7 +9,7 @@ export class GamesService {
   constructor(@InjectModel(Game) private gamesRepository: typeof Game) {}
 
   async createGame(dto: CreateGameDto) {
-    return await this.gamesRepository.create(dto);
+    return await this.gamesRepository.create();
   }
 
   async updateGame(dto: UpdateGameDto) {
