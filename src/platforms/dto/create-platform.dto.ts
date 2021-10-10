@@ -1,4 +1,3 @@
-
 export class CreatePlatformDto {
-    readonly title: string;
+  readonly title: string;
 }

@@ -73,7 +73,9 @@ export class GamesController {
 
   @Get('/covers/:filename')
   findCoverImage(@Param('filename') filename, @Res() res) {
-    return of(res.sendFile(join(process.cwd(), 'uploads/game-covers/' + filename)));
+    return of(
+      res.sendFile(join(process.cwd(), 'uploads/game-covers/' + filename)),
+    );
   }
 
   @Post('/covers/delete')

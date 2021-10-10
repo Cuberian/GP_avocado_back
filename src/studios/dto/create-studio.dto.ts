@@ -1,3 +1,3 @@
 export class CreateStudioDto {
-    readonly name: string;
+  readonly name: string;
 }
