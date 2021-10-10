@@ -12,57 +12,43 @@ import { PlatformsModule } from './platforms/platforms.module';
 import { GenresModule } from './genres/genres.module';
 import { StudiosModule } from './studios/studios.module';
 import { CommentsModule } from './comments/comments.module';
-
-import { Tag } from './tags/tag.model';
-import { News } from './news/news.model';
-import { Game } from './games/game.model';
-import { Role } from './roles/role.model';
-import { User } from './users/user.model';
-import { Rating } from './ratings/rating.model';
-import { Platform } from './platforms/platform.model';
-import { Genre } from './genres/genre.model';
-import { Studio } from './studios/studio.model';
-import { Comment } from './comments/comment.model';
-import { GamePlatforms } from './games/game-platforms.model';
-import { GameStudios } from './games/game-studios.model';
-import { GamePublishers } from './games/game-publishers.model';
-import { GameGenres } from './games/game-genres.model';
-import { NewsTags } from './tags/news-tags.model';
 import { ImagesModule } from './images/images.module';
+
+const developmentDbConfig: any = {
+  dialect: 'postgres',
+  host: process.env.POSTGRES_HOST,
+  port: Number(process.env.POSTGRES_PORT),
+  username: process.env.POSTGRES_USER,
+  password: String(process.env.POSTGRES_PASSWORD),
+  database: process.env.POSTGRES_DB,
+  autoLoadModels: true,
+};
+
+const productionDbConfig: any = {
+  host: process.env.POSTGRES_HOST,
+  port: Number(process.env.POSTGRES_PORT),
+  username: process.env.POSTGRES_USER,
+  password: String(process.env.POSTGRES_PASSWORD),
+  database: process.env.POSTGRES_DB,
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+    },
+  },
+  autoLoadModels: true,
+};
 
 @Module({
   controllers: [],
   providers: [],
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
-    }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: String(process.env.POSTGRES_PASSWORD),
-      database: process.env.POSTGRES_DB,
-      models: [
-        User,
-        Role,
-        News,
-        Game,
-        Rating,
-        Tag,
-        Platform,
-        Genre,
-        Studio,
-        Comment,
-        GamePlatforms,
-        GameStudios,
-        GamePublishers,
-        GameGenres,
-        NewsTags,
-      ],
-      autoLoadModels: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
+    SequelizeModule.forRoot(
+      process.env.NODE_ENV === 'development'
+        ? developmentDbConfig
+        : productionDbConfig,
+    ),
     UsersModule,
     RolesModule,
     AuthModule,
