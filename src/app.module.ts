@@ -34,6 +34,7 @@ const productionDbConfig: any = {
   dialectOptions: {
     ssl: {
       require: true,
+      rejectUnauthorized: false,
     },
   },
   autoLoadModels: true,
@@ -44,11 +45,21 @@ const productionDbConfig: any = {
   providers: [],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    SequelizeModule.forRoot(
-      process.env.NODE_ENV === 'development'
-        ? developmentDbConfig
-        : productionDbConfig,
-    ),
+    SequelizeModule.forRoot({
+      host: process.env.POSTGRES_HOST,
+      port: Number(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USER,
+      password: String(process.env.POSTGRES_PASSWORD),
+      database: process.env.POSTGRES_DB,
+      dialect: 'postgres',
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
+      autoLoadModels: true,
+    }),
     UsersModule,
     RolesModule,
     AuthModule,
