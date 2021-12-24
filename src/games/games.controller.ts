@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Res,
-  UploadedFile,
+  UploadedFile, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
@@ -21,19 +21,28 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { of } from 'rxjs';
 import { join } from 'path';
 import { UpdateNewsDto } from '../news/dto/update-news.dto';
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller('games')
 export class GamesController {
   constructor(private gamesService: GamesService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() dto: CreateGameDto) {
     return this.gamesService.createGame(dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put()
   update(@Body() dto: UpdateGameDto) {
     return this.gamesService.updateGame(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:id')
+  delete(@Param('id') game_id: number) {
+    return this.gamesService.deleteGame(game_id);
   }
 
   @Get('/:id')
@@ -51,6 +60,7 @@ export class GamesController {
     return this.gamesService.getAllGames();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/covers/upload')
   @UseInterceptors(
     FileInterceptor('file', {

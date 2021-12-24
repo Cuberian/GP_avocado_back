@@ -7,12 +7,14 @@ import { User } from '../users/user.model';
 import { Tag } from '../tags/tag.model';
 import { NewsTags } from '../tags/news-tags.model';
 import { TagsModule } from '../tags/tags.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   providers: [NewsService],
   controllers: [NewsController],
   imports: [
     TagsModule,
+    AuthModule,
     SequelizeModule.forFeature([News, User, Tag, NewsTags]),
   ],
 })

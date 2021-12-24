@@ -13,6 +13,7 @@ import { GameGenres } from './game-genres.model';
 import { StudiosModule } from '../studios/studios.module';
 import { GenresModule } from '../genres/genres.module';
 import { PlatformsModule } from '../platforms/platforms.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [GamesController],
@@ -31,6 +32,7 @@ import { PlatformsModule } from '../platforms/platforms.module';
     StudiosModule,
     GenresModule,
     PlatformsModule,
+    AuthModule
   ],
 })
 export class GamesModule {}

@@ -185,6 +185,11 @@ export class GamesService {
     return updatedGame;
   }
 
+  async deleteGame(game_id: number) {
+    const game = await this.gamesRepository.findByPk(game_id)
+    return await game.destroy()
+  }
+
   async getGamesByTitle(title: string) {
     return await this.gamesRepository.findAll({ where: { title } });
   }

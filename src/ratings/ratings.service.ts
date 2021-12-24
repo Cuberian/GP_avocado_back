@@ -4,6 +4,7 @@ import { Role } from '../roles/role.model';
 import { CreateRoleDto } from '../roles/dto/create-role.dto';
 import { Rating } from './rating.model';
 import { CreateRatingDto } from './dto/create-rating.dto';
+import {UpdateRatingDto} from "./dto/update-rating.dto";
 
 @Injectable()
 export class RatingsService {
@@ -11,6 +12,12 @@ export class RatingsService {
 
   async createRating(dto: CreateRatingDto) {
     return await this.ratingRepository.create(dto);
+  }
+
+  async updateRating(dto: UpdateRatingDto) {
+    const { rating, user_id, game_id} = dto
+    const ratingObj = await this.ratingRepository.findOne({ where: {user_id, game_id}})
+    return await ratingObj.update({ rating });
   }
 
   async getRatingsByUserId(user_id: number) {

@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Res,
-  UploadedFile,
+  UploadedFile, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { NewsService } from './news.service';
@@ -20,15 +20,19 @@ const path = require('path');
 import { join } from 'path';
 import { of } from 'rxjs';
 import { UpdateNewsDto } from './dto/update-news.dto';
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller('news')
 export class NewsController {
   constructor(private newsService: NewsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() dto: CreateNewsDto) {
     return this.newsService.createNews(dto);
   }
+
+  @UseGuards(JwtAuthGuard)
   @Put()
   update(@Body() dto: UpdateNewsDto) {
     return this.newsService.updateNews(dto);
@@ -39,6 +43,7 @@ export class NewsController {
     return this.newsService.getNewsById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   deleteById(@Param('id') id: number) {
     return this.newsService.deleteNewsById(id);
