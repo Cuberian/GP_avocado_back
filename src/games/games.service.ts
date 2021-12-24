@@ -154,8 +154,6 @@ export class GamesService {
 
     for (const publisherName of publishers) {
       const publisher = await this.studiosService.getStudiosByName(publisherName);
-      if (publisher) validPublishers.push(publisher);
-
       if (publisher) {
         validPublishers.push(publisher);
       }
