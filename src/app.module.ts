@@ -14,31 +14,17 @@ import { StudiosModule } from './studios/studios.module';
 import { CommentsModule } from './comments/comments.module';
 import { ImagesModule } from './images/images.module';
 
-const developmentDbConfig: any = {
-  dialect: 'postgres',
-  host: process.env.POSTGRES_HOST,
-  port: Number(process.env.POSTGRES_PORT),
-  username: process.env.POSTGRES_USER,
-  password: String(process.env.POSTGRES_PASSWORD),
-  database: process.env.POSTGRES_DB,
-  autoLoadModels: true,
-};
-
-const productionDbConfig: any = {
-  host: process.env.POSTGRES_HOST,
-  port: Number(process.env.POSTGRES_PORT),
-  username: process.env.POSTGRES_USER,
-  password: String(process.env.POSTGRES_PASSWORD),
-  database: process.env.POSTGRES_DB,
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
-  autoLoadModels: true,
-};
+const subConfigs: any =
+  process.env.NODE_ENV === 'production'
+    ? {
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        },
+      }
+    : {};
 
 @Module({
   controllers: [],
@@ -52,12 +38,7 @@ const productionDbConfig: any = {
       username: process.env.POSTGRES_USER,
       password: String(process.env.POSTGRES_PASSWORD),
       database: process.env.POSTGRES_DB,
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
-      },
+      ...subConfigs,
       autoLoadModels: true,
     }),
     UsersModule,

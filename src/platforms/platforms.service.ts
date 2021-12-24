@@ -13,6 +13,10 @@ export class PlatformsService {
     return await this.platformRepository.create(dto);
   }
 
+  async getPlatformById(id: number) {
+    return await this.platformRepository.findOne({ where: { id } });
+  }
+
   async getPlatformByTitle(title: string) {
     return await this.platformRepository.findOne({ where: { title } });
   }

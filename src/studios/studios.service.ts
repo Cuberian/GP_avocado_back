@@ -15,6 +15,10 @@ export class StudiosService {
     return await this.studioRepository.findOne({ where: { name } });
   }
 
+  async getStudiosById(id: number) {
+    return await this.studioRepository.findOne({ where: { id } });
+  }
+
   async getAllStudios() {
     return await this.studioRepository.findAll();
   }

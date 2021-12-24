@@ -13,8 +13,13 @@ export class PlatformsController {
   }
 
   @Get('/:title')
-  getByValue(@Param('title') title: string) {
+  getByTitle(@Param('title') title: string) {
     return this.platformsService.getPlatformByTitle(title);
+  }
+
+  @Get('/:id')
+  getById(@Param('id') id: number) {
+    return this.platformsService.getPlatformById(id);
   }
 
   @Get()

@@ -31,8 +31,11 @@ export class Game extends Model<Game, GameCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
-  @Column({ type: DataType.DATE })
+  @Column({ type: DataType.DATE, field: 'release_date' })
   releaseDate: Date;
+
+  @Column({ type: DataType.STRING })
+  coverImage: string;
 
   @BelongsToMany(() => Platform, () => GamePlatforms)
   platforms: Platform[];
